@@ -57,13 +57,16 @@ function build_graph(){
         chart: {
             type: 'area',
             style: {
-                fontFamily: '"Lato", Helvetica, Arial, sans-serif'
+                fontFamily: 'Lato'
             }
         },
         title: {
             text: ''
         },
         colors: ['#FB0042'],
+        legend: {
+            enabled: false
+        },
         xAxis: {
             type: 'datetime',
             tickInterval: 365 * 24 * 60 * 60 * 1000,
@@ -163,7 +166,7 @@ function build_graph(){
             enabled: true,
             useHTML: true,
             style: {
-                fontFamily: '"Lato", Helvetica, Arial, sans-serif'
+                fontFamily: "Lato"
             },
             backgroundColor: '#FFFFFF',
             borderColor: '#CCCCCC',
