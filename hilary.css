@@ -1,0 +1,37 @@
+#container{
+	min-width: 1000px !important;
+}
+
+div.highcharts-tooltip>span{
+	font-family: "Lato", Helvetica, Arial, sans-serif !important;
+	font-size: 15px !important;
+	z-index: 9998 !important;
+	height: auto !important;
+	min-width: 150px !important;
+	max-width: 300px !important;
+	overflow: auto !important;
+	white-space: normal !important;
+	line-height: 1.2;
+
+
+}
+
+.highcharts-tooltip {
+	margin: 0 auto !important;
+  	text-align: center;
+}
+
+.highcharts-tooltip .percentage {
+	color: #FB0042;
+	font-size: x-large;
+	font-weight: bold;
+}
+
+.highcharts-tooltip .date{
+	font-size: large;
+}
+
+.highcharts-tooltip .incident{
+	color: #999;
+
+}

@@ -1,0 +1,86 @@
+[
+   {
+      "date": "January 26, 1992",
+      "incident": "The Clintons appear on 60 Minutes to deny allegations that Bill had an affair with Gennifer Flowers"
+   },
+   {
+      "date": "July 26, 1992",
+      "incident": "Bill Clinton aide coins the term 'bimbo eruptions'"
+   },
+   {
+      "date": "August 1, 1993",
+      "incident": "The American Spectator reports that the Clintons listed donations of Bill's used underwear as a tax write-off"
+   },
+   {
+      "date": "January 27, 1996",
+      "incident": "Hillary Clinton testifies before grand jury on Rose Law Firm"
+   },
+   {
+      "date": "September 26, 1996",
+      "incident": "Barbara Comstock issues report on Travelgate"
+   },
+   {
+      "date": "June 16, 1997",
+      "incident": "David Brock publishes 'Confessions of a Right-Wing Hit Man'"
+   },
+   {
+      "date": "December 17, 1997",
+      "incident": "Monica Lewinsky is subpoenaed in Paula Jones lawsuit"
+   },
+   {
+      "date": "December 19, 1998",
+      "incident": "Bill Clinton is impeached"
+   },
+   {
+      "date": "January 27, 1998",
+      "incident": "Hillary Clinton coins the term 'vast right-wing conspiracy'"
+   },
+   {
+      "date": "November 7, 2000",
+      "incident": "Hillary Clinton is elected senator from New York"
+   },
+   {
+      "date": "October 28, 2006",
+      "incident": "R. Emmett Tyrrell attends Bill Clinton's 60th birthday party"
+   },
+   {
+      "date": "January 20, 2007",
+      "incident": "Hillary Clinton announces candidacy for president"
+   },
+   {
+      "date": "November 7, 2007",
+      "incident": "Kathleen Willey claims the Clintons murdered her cat"
+   },
+   {
+      "date": "January 7, 2008",
+      "incident": "Hillary Clinton tears up during campaign event in New Hampshire"
+   },
+   {
+      "date": "December 1, 2008",
+      "incident": "Hillary Clinton is appointed secretary of state"
+   },
+   {
+      "date": "September 11, 2012",
+      "incident": "Militants kill four Americans in Benghazi attacks"
+   },
+   {
+      "date": "October 18, 2012",
+      "incident": "Hillary Clinton is quoted telling Marie Claire reporter she 'can't stand whining'"
+   },
+   {
+      "date": "February 10, 2014",
+      "incident": "Hillary Clinton is quoted calling Monica Lewinsky a 'narcissistic loony tune' in correspondence with Diane Blair"
+   },
+   {
+      "date": "May 6, 2014",
+      "incident": "Vanity Fair publishes Monica Lewinsky's account of affair with Bill Clinton"
+   },
+   {
+      "date": "June 9, 2014",
+      "incident": "Hillary Clinton claims she and Bill were 'dead broke' when they left the White House"
+   },
+   {
+      "date": "July 22, 2014",
+      "incident": "Marco Rubio calls Hillary Clinton 'a 20th-century candidate'"
+   }
+]
