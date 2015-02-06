@@ -5,6 +5,17 @@ var event_series = [];
 var bandLabelVertOffset = -45;
 var bandLabelFontSize = '16px';
 var bandLabelLineSpacing = '20px';
+var bandLabelColor = 'black';
+var bandLabelStyle = {
+                        fontSize: bandLabelFontSize,
+                        lineHeight: bandLabelLineSpacing,
+                        color: bandLabelColor,
+                        fontWeight: 'bold',
+                    };
+
+var plotLinesColor = 'black';
+
+var chartWidth = document.getElementById('container').offsetWidth;
 
 $.when(
     $.ajax({
@@ -57,7 +68,7 @@ function build_graph(){
         chart: {
             type: 'area',
             style: {
-                fontFamily: 'Lato'
+                fontFamily: '"Lato", Helvetica, Arial, sans-serif'
             }
         },
         title: {
@@ -70,91 +81,82 @@ function build_graph(){
         xAxis: {
             type: 'datetime',
             tickInterval: 365 * 24 * 60 * 60 * 1000,
-            plotBands: [{
-                color: 'rgba(0, 0, 0, 0)',
-                from: new Date(1993, 1, 20).getTime(),
-                to: new Date(2001, 1, 3).getTime(),
-                zIndex: 2,
-                label: {
-                    text: "First Lady<br>1993-2001",
-                    verticalAlign: 'bottom',
-                    y: bandLabelVertOffset,
-                    style: {
-                        fontSize: bandLabelFontSize,
-                        lineHeight: bandLabelLineSpacing,
-                        color: 'black',
-                        fontWeight: 'bold',
-                    }
-                }
-            },
-            {
-                color: 'rgba(255, 255, 255, 0)',
-                from: new Date(2001, 1, 3).getTime(),
-                to: new Date(2009, 1, 21).getTime(),
-                zIndex: 2,
-                label: {
-                    text: "U.S. Senator<br>2001-2009",
-                    verticalAlign: 'bottom',
-                    y: bandLabelVertOffset,
-                    style: {
-                        fontSize: bandLabelFontSize,
-                        lineHeight: bandLabelLineSpacing,
-                        color: 'black',
-                        fontWeight: 'bold',
-                    }
-                }
-            },
-            {
-                color: 'rgba(255, 255, 255, 0)',
-                from: new Date(2009, 1, 21).getTime(),
-                to: new Date(2013, 0, 0).getTime(),
-                zIndex: 2,
-                label: {
-                    text: "Secretary of State<br>2009-2013",
-                    verticalAlign: 'bottom',
-                    y: bandLabelVertOffset,
-                    style: {
-                        fontSize: bandLabelFontSize,
-                        lineHeight: bandLabelLineSpacing,
-                        color: 'black',
-                        fontWeight: 'bold',
-                    }
-                }
-            },
+            // plotBands: [{
+            //     color: 'rgba(0, 0, 0, 0)',
+            //     from: new Date(1993, 1, 20).getTime(),
+            //     to: new Date(2001, 1, 3).getTime(),
+            //     zIndex: 2,
+            //     label: {
+            //         text: "First Lady<br>1993-2001",
+            //         verticalAlign: 'bottom',
+            //         y: bandLabelVertOffset,
+            //         style: bandLabelStyle
+            //     }
+            // },
+            // {
+            //     color: 'rgba(255, 255, 255, 0)',
+            //     from: new Date(2001, 1, 3).getTime(),
+            //     to: new Date(2009, 1, 21).getTime(),
+            //     zIndex: 2,
+            //     label: {
+            //         text: "U.S. Senator<br>2001-2009",
+            //         verticalAlign: 'bottom',
+            //         y: bandLabelVertOffset,
+            //         style: bandLabelStyle
+            //     }
+            // },
+            // {
+            //     color: 'rgba(255, 255, 255, 0)',
+            //     from: new Date(2009, 1, 21).getTime(),
+            //     to: new Date(2013, 0, 0).getTime(),
+            //     zIndex: 2,
+            //     label: {
+            //         text: "Secretary of State<br>2009-2013",
+            //         verticalAlign: 'bottom',
+            //         y: bandLabelVertOffset,
+            //         style: bandLabelStyle
+            //     }
+            // },
 
 
 
 
-            ],
+            // ],
             plotLines: [{
-                color: '#000000',
+                color: plotLinesColor,
                 value: new Date(1993, 1, 20).getTime(), //Bill sworn in
                 width: 2,
                 zIndex: 7,
+                id: 'plotline1'
             },
             {
-                color: '#000000',
+                color: plotLinesColor,
                 value: new Date(2001, 1, 3).getTime(), //Becomes U.S Senator
                 width: 2,
                 zIndex: 7,
+                id: 'plotline2'
             },
             {
-                color: '#000000',
+                color: plotLinesColor,
                 value: new Date(2009, 1, 21).getTime(), //Secretary of State
                 width: 2,
                 zIndex: 7,
+                id: 'plotline3'
             },
             {
-                color: '#000000',
+                color: plotLinesColor,
                 value: new Date(2013, 0, 0).getTime(), //Secretary of State
                 width: 2,
-                zIndex: 7
+                zIndex: 7,
+                id: 'plotline4'
             }]
         },
         yAxis: {
             title: {
                 text: 'Approval rating'
             },
+            min: 30,
+            max: 70,
             tickInterval: 10,
             labels: {
                 formatter: function () {
@@ -192,7 +194,6 @@ function build_graph(){
                 }
             },
             scatter: {
-                zIndex: 40000,
                 useHTML: true,
                 color: "black",
                 cursor: "pointer",
@@ -218,5 +219,59 @@ function build_graph(){
                 enableMouseTracking: true,
             }
         ]
+    }, function(chart){
+
+        // var line1 = chart.xAxis[0].removePlotLine('plotline-1');
+        //     text1 = chart.renderer.text(
+        //         'First Lady<br>1993-2001',
+        //         line1.plotX + chart.plotLeft + 10,
+        //         line1.plotY + chart.plotTop + 100
+        //     ).attr({
+        //         zIndex: 5000,
+        //     }).css({
+        //         fontSize: '15px',
+        //         color: 'white',
+        //     }).add(),
+        //     box1 = text1.getBBox();
+
+
+        var line2 = chart.series[1].data[9],
+            text2 = chart.renderer.text(
+                'U.S. Senator<br>2001-2009',
+                line2.plotX + chart.plotLeft + 30,
+                line2.plotY + chart.plotTop + 100
+            ).attr({
+                zIndex: 5000,
+            }).css({
+                fontSize: '15px',
+                color: 'white',
+            }).add(),
+            box2 = text2.getBBox();
+
+
+        var line3 = chart.series[1].data[10],
+            text3 = chart.renderer.text(
+                'Secretary of State<br>2009-2013',
+                line3.plotX + chart.plotLeft + 50,
+                line3.plotY + chart.plotTop + 100
+            ).attr({
+                zIndex: 5000,
+            }).css({
+                fontSize: '15px',
+                color: 'white',
+            }).add(),
+            box3 = text3.getBBox();
+
+        chart.renderer.text('First Lady<br>1993-2001', 50%, 320)
+            .attr({
+                zIndex: 5000,
+            })
+            .css({
+                color: 'white',
+                fontSize: '16px',
+                textAlign: 'middle',
+            })
+            .add();
+
     });
 }

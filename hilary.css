@@ -3,7 +3,6 @@
 }
 
 div.highcharts-tooltip>span{
-/*	font-family: "Lato", Helvetica, Arial, sans-serif !important;*/
 	font-size: 15px !important;
 	z-index: 9998 !important;
 	height: auto !important;
