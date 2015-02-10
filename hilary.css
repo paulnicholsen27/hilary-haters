@@ -4,10 +4,7 @@
 
 div.highcharts-tooltip>span{
 	font-size: 15px !important;
-	z-index: 9998 !important;
 	height: auto !important;
-	min-width: 150px !important;
-	max-width: 300px !important;
 	overflow: auto !important;
 	white-space: normal !important;
 	line-height: 1.2;
@@ -16,8 +13,10 @@ div.highcharts-tooltip>span{
 }
 
 .highcharts-tooltip {
+	width: 180px !important;
 	margin: 0 auto !important;
   	text-align: center;
+  	z-index: 1000 !important;
 }
 
 .highcharts-tooltip .percentage {
@@ -33,4 +32,37 @@ div.highcharts-tooltip>span{
 .highcharts-tooltip .incident{
 	color: #999;
 
+}
+
+
+html{
+	background-color: green;
+}
+/*.bandLabel{
+	text-align: center !important;
+	background-color: blue !important;
+}*/
+
+	g.highcharts-yaxis-labels text{
+		position: fixed !important;
+		left: 10px;
+		/*font-size: 10px !important;*/
+	}
+
+@media(max-width: 500px){
+	html{
+		background-color: blue !important;
+	}
+	#container {
+		width: 2500px !important;
+	}
+
+
+	g.highcharts-markers.highcharts-tracker path{
+		radius: 10;
+	}
+}
+
+.scatterpoint {
+	fill: red !important;
 }

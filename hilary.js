@@ -2,20 +2,14 @@ var tooltips = [];
 var approval = [];
 var event_series = [];
 
-var bandLabelVertOffset = -45;
-var bandLabelFontSize = '16px';
-var bandLabelLineSpacing = '20px';
-var bandLabelColor = 'black';
-var bandLabelStyle = {
-                        fontSize: bandLabelFontSize,
-                        lineHeight: bandLabelLineSpacing,
-                        color: bandLabelColor,
-                        fontWeight: 'bold',
-                    };
+var sectionLabelFontSize = '16px';
 
-var plotLinesColor = 'black';
-
-var chartWidth = document.getElementById('container').offsetWidth;
+var plotLinesColor = 'white';
+var plotBandLabelVertOffset = -330;
+var firstPlotLinePosition = new Date(1993, 1, 20).getTime();
+var secondPlotLinePosition = new Date(2001, 1, 3).getTime();
+var thirdPlotLinePosition = new Date(2009, 1, 21).getTime();
+var fourthPlotLinePosition = new Date(2013, 0, 0).getTime();
 
 $.when(
     $.ajax({
@@ -78,86 +72,50 @@ function build_graph(){
         legend: {
             enabled: false
         },
+
         xAxis: {
             type: 'datetime',
             tickInterval: 365 * 24 * 60 * 60 * 1000,
-            // plotBands: [{
-            //     color: 'rgba(0, 0, 0, 0)',
-            //     from: new Date(1993, 1, 20).getTime(),
-            //     to: new Date(2001, 1, 3).getTime(),
-            //     zIndex: 2,
-            //     label: {
-            //         text: "First Lady<br>1993-2001",
-            //         verticalAlign: 'bottom',
-            //         y: bandLabelVertOffset,
-            //         style: bandLabelStyle
-            //     }
-            // },
-            // {
-            //     color: 'rgba(255, 255, 255, 0)',
-            //     from: new Date(2001, 1, 3).getTime(),
-            //     to: new Date(2009, 1, 21).getTime(),
-            //     zIndex: 2,
-            //     label: {
-            //         text: "U.S. Senator<br>2001-2009",
-            //         verticalAlign: 'bottom',
-            //         y: bandLabelVertOffset,
-            //         style: bandLabelStyle
-            //     }
-            // },
-            // {
-            //     color: 'rgba(255, 255, 255, 0)',
-            //     from: new Date(2009, 1, 21).getTime(),
-            //     to: new Date(2013, 0, 0).getTime(),
-            //     zIndex: 2,
-            //     label: {
-            //         text: "Secretary of State<br>2009-2013",
-            //         verticalAlign: 'bottom',
-            //         y: bandLabelVertOffset,
-            //         style: bandLabelStyle
-            //     }
-            // },
-
-
-
-
-            // ],
+            // gridZIndex: 7,
+            // gridLineColor: '#666',
+            // gridLineDashStyle: 'Dash',
+            // gridLineWidth: 2,
             plotLines: [{
                 color: plotLinesColor,
-                value: new Date(1993, 1, 20).getTime(), //Bill sworn in
+                value: firstPlotLinePosition, //Bill sworn in
                 width: 2,
-                zIndex: 7,
-                id: 'plotline1'
+                zIndex: 6,
             },
             {
                 color: plotLinesColor,
-                value: new Date(2001, 1, 3).getTime(), //Becomes U.S Senator
+                value: secondPlotLinePosition, //Becomes U.S Senator
                 width: 2,
-                zIndex: 7,
-                id: 'plotline2'
+                zIndex: 6,
             },
             {
                 color: plotLinesColor,
-                value: new Date(2009, 1, 21).getTime(), //Secretary of State
+                value: thirdPlotLinePosition, //Secretary of State
                 width: 2,
-                zIndex: 7,
-                id: 'plotline3'
+                zIndex: 6,
             },
             {
                 color: plotLinesColor,
-                value: new Date(2013, 0, 0).getTime(), //Secretary of State
+                value: fourthPlotLinePosition, //Secretary of State
                 width: 2,
-                zIndex: 7,
-                id: 'plotline4'
+                zIndex: 6,
             }]
         },
         yAxis: {
             title: {
                 text: 'Approval rating'
             },
-            min: 30,
+            min: 31,
             max: 70,
+            gridZIndex: 7,
+            gridLineColor: '#666',
+            gridLineDashStyle: 'Dash',
             tickInterval: 10,
+            startOnTick: false,
             labels: {
                 formatter: function () {
                     return this.value + '%';
@@ -167,6 +125,7 @@ function build_graph(){
         tooltip: {
             enabled: true,
             useHTML: true,
+            zIndex: 60,
             style: {
                 fontFamily: "Lato"
             },
@@ -183,7 +142,7 @@ function build_graph(){
         },
         plotOptions: {
             area: {
-                fillOpacity: 0.3,
+                fillOpacity: 1,
                 marker: {
                     enabled: false,
                     states: {
@@ -201,6 +160,11 @@ function build_graph(){
                     enabled: true,
                     symbol: "circle",
                     radius: 4,
+                },
+                states: {
+                    hover: {
+                        enabled: false
+                    }
                 }
             }
         },
@@ -217,61 +181,81 @@ function build_graph(){
                 type: 'scatter',
                 tooltip: true,
                 enableMouseTracking: true,
+            },
+            {   name: 'Labels',
+                data: [[(firstPlotLinePosition + secondPlotLinePosition) / 2, 0], [(secondPlotLinePosition + thirdPlotLinePosition) / 2, 0], [(thirdPlotLinePosition + fourthPlotLinePosition) / 2, 0]],
+                type: 'scatter',
+                tooltip: false,
+                enableMouseTracking: false
+
             }
         ]
     }, function(chart){
 
-        // var line1 = chart.xAxis[0].removePlotLine('plotline-1');
-        //     text1 = chart.renderer.text(
-        //         'First Lady<br>1993-2001',
-        //         line1.plotX + chart.plotLeft + 10,
-        //         line1.plotY + chart.plotTop + 100
-        //     ).attr({
-        //         zIndex: 5000,
-        //     }).css({
-        //         fontSize: '15px',
-        //         color: 'white',
-        //     }).add(),
-        //     box1 = text1.getBBox();
+        var labelOnePos = chart.series[2].data[0],
+            text1 = chart.renderer.text(
+                'First Lady<br>1993-2001',
+                labelOnePos.plotX + chart.plotLeft,
+                labelOnePos.plotY + chart.plotTop + plotBandLabelVertOffset
+            ).attr({
+                zIndex: 7,
+                align: 'center'
+            }).css({
+                fontSize: sectionLabelFontSize,
+                color: 'white',
+            }).add(),
+            box1 = text1.getBBox();
 
-
-        var line2 = chart.series[1].data[9],
+        var labelTwoPos = chart.series[2].data[1],
             text2 = chart.renderer.text(
                 'U.S. Senator<br>2001-2009',
-                line2.plotX + chart.plotLeft + 30,
-                line2.plotY + chart.plotTop + 100
+                labelTwoPos.plotX + chart.plotLeft,
+                labelTwoPos.plotY + chart.plotTop + plotBandLabelVertOffset
             ).attr({
-                zIndex: 5000,
+                zIndex: 7,
+                align: 'center'
             }).css({
-                fontSize: '15px',
-                color: 'white',
+                fontSize: sectionLabelFontSize,
+                color: 'white'
             }).add(),
             box2 = text2.getBBox();
 
-
-        var line3 = chart.series[1].data[10],
+        var labelThreePos = chart.series[2].data[2],
             text3 = chart.renderer.text(
                 'Secretary of State<br>2009-2013',
-                line3.plotX + chart.plotLeft + 50,
-                line3.plotY + chart.plotTop + 100
+                labelThreePos.plotX + chart.plotLeft,
+                labelThreePos.plotY + chart.plotTop + plotBandLabelVertOffset
             ).attr({
-                zIndex: 5000,
+                zIndex: 7,
+                align: 'center'
             }).css({
-                fontSize: '15px',
-                color: 'white',
+                fontSize: sectionLabelFontSize,
+                color: 'white'
             }).add(),
             box3 = text3.getBBox();
-
-        chart.renderer.text('First Lady<br>1993-2001', 50%, 320)
-            .attr({
-                zIndex: 5000,
-            })
-            .css({
-                color: 'white',
-                fontSize: '16px',
-                textAlign: 'middle',
-            })
-            .add();
-
     });
 }
+
+$(document).ready(function(){
+    $(window).resize(function(){
+        build_graph();
+    });
+});
+
+// $( window ).resize(function() {
+//     var graph = $('#container').highcharts();
+
+//     if ($(window).width() < 500) {
+//         console.log(graph);
+//         console.log('small window');
+//         // graph.options.plotOptions.scatter.marker.radius = 8;
+//         // graph.series[1].update();
+//     }
+//     else {
+//         console.log(graph);
+//         console.log('big window');
+
+//         // graph.options.plotOptions.scatter.marker.radius = 4;
+//         // graph.series[1].update();
+//     }
+// });
