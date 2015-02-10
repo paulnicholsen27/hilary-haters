@@ -34,35 +34,9 @@ div.highcharts-tooltip>span{
 
 }
 
-
-html{
-	background-color: green;
-}
-/*.bandLabel{
-	text-align: center !important;
-	background-color: blue !important;
-}*/
-
-	g.highcharts-yaxis-labels text{
-		position: fixed !important;
-		left: 10px;
-		/*font-size: 10px !important;*/
-	}
-
 @media(max-width: 500px){
-	html{
-		background-color: blue !important;
-	}
+
 	#container {
 		width: 2500px !important;
 	}
-
-
-	g.highcharts-markers.highcharts-tracker path{
-		radius: 10;
-	}
-}
-
-.scatterpoint {
-	fill: red !important;
 }

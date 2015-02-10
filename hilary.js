@@ -37,10 +37,10 @@ $.when(
                     }
                 }
             })
-        ).then(function(){
-            build_graph();
+            ).then(function(){
+                build_graph();
             });
-    });
+        });
 
 function getYValue(dataset, date){
     //gets rating estimate for closest surrounding dates using algebraic fun-times
@@ -58,9 +58,17 @@ function getYValue(dataset, date){
 }
 
 function build_graph(){
+    var dotRadius;
+    if ($(window).width() < 500) {
+        dotRadius = 8;
+    } else {
+        dotRadius = 4;
+    }
+
     $('#container').highcharts({
         chart: {
             type: 'area',
+            panning: true,
             style: {
                 fontFamily: '"Lato", Helvetica, Arial, sans-serif'
             }
@@ -76,10 +84,6 @@ function build_graph(){
         xAxis: {
             type: 'datetime',
             tickInterval: 365 * 24 * 60 * 60 * 1000,
-            // gridZIndex: 7,
-            // gridLineColor: '#666',
-            // gridLineDashStyle: 'Dash',
-            // gridLineWidth: 2,
             plotLines: [{
                 color: plotLinesColor,
                 value: firstPlotLinePosition, //Bill sworn in
@@ -159,7 +163,7 @@ function build_graph(){
                 marker: {
                     enabled: true,
                     symbol: "circle",
-                    radius: 4,
+                    radius: dotRadius,
                 },
                 states: {
                     hover: {
@@ -169,93 +173,112 @@ function build_graph(){
             }
         },
         series: [
-            {
-                name: 'Approval Ratings',
-                data: approval,
-                type: 'area',
-                enableMouseTracking: false,
-            },
-            {
-                name: 'Events',
-                data: event_series,
-                type: 'scatter',
-                tooltip: true,
-                enableMouseTracking: true,
-            },
-            {   name: 'Labels',
-                data: [[(firstPlotLinePosition + secondPlotLinePosition) / 2, 0], [(secondPlotLinePosition + thirdPlotLinePosition) / 2, 0], [(thirdPlotLinePosition + fourthPlotLinePosition) / 2, 0]],
-                type: 'scatter',
-                tooltip: false,
-                enableMouseTracking: false
+        {
+            name: 'Approval Ratings',
+            data: approval,
+            type: 'area',
+            enableMouseTracking: false,
+        },
+        {
+            name: 'Events',
+            data: event_series,
+            type: 'scatter',
+            tooltip: true,
+            enableMouseTracking: true,
+        },
+        {   name: 'Labels',
+        data: [[(firstPlotLinePosition + secondPlotLinePosition) / 2, 0], [(secondPlotLinePosition + thirdPlotLinePosition) / 2, 0], [(thirdPlotLinePosition + fourthPlotLinePosition) / 2, 0]],
+        type: 'scatter',
+        tooltip: false,
+        enableMouseTracking: false
 
-            }
-        ]
-    }, function(chart){
-
-        var labelOnePos = chart.series[2].data[0],
-            text1 = chart.renderer.text(
-                'First Lady<br>1993-2001',
-                labelOnePos.plotX + chart.plotLeft,
-                labelOnePos.plotY + chart.plotTop + plotBandLabelVertOffset
-            ).attr({
-                zIndex: 7,
-                align: 'center'
-            }).css({
-                fontSize: sectionLabelFontSize,
-                color: 'white',
-            }).add(),
-            box1 = text1.getBBox();
-
-        var labelTwoPos = chart.series[2].data[1],
-            text2 = chart.renderer.text(
-                'U.S. Senator<br>2001-2009',
-                labelTwoPos.plotX + chart.plotLeft,
-                labelTwoPos.plotY + chart.plotTop + plotBandLabelVertOffset
-            ).attr({
-                zIndex: 7,
-                align: 'center'
-            }).css({
-                fontSize: sectionLabelFontSize,
-                color: 'white'
-            }).add(),
-            box2 = text2.getBBox();
-
-        var labelThreePos = chart.series[2].data[2],
-            text3 = chart.renderer.text(
-                'Secretary of State<br>2009-2013',
-                labelThreePos.plotX + chart.plotLeft,
-                labelThreePos.plotY + chart.plotTop + plotBandLabelVertOffset
-            ).attr({
-                zIndex: 7,
-                align: 'center'
-            }).css({
-                fontSize: sectionLabelFontSize,
-                color: 'white'
-            }).add(),
-            box3 = text3.getBBox();
-    });
+    }
+    ]
+});
+makeLabels();
 }
 
+var makeLabels = function(){
+    var chart = $('#container').highcharts();
+    //I know this is hacky but was the only way I could find to target the elements
+    $("tspan:contains('First')").remove();
+    $("tspan:contains('1993')").remove();
+    $("tspan:contains('Senator')").remove();
+    $("tspan:contains('2001')").remove();
+    $("tspan:contains('Secretary')").remove();
+    $("tspan:contains('2009')").remove();
+
+    var labelOnePos = chart.series[2].data[0],
+    text1 = chart.renderer.text(
+        'First Lady<br>1993-2001',
+        labelOnePos.plotX + chart.plotLeft,
+        labelOnePos.plotY + chart.plotTop + plotBandLabelVertOffset
+        ).attr({
+            zIndex: 7,
+            align: 'center'
+        }).css({
+            fontSize: sectionLabelFontSize,
+            color: 'white',
+        }).add();
+
+    var labelTwoPos = chart.series[2].data[1],
+    text2 = chart.renderer.text(
+        'U.S. Senator<br>2001-2009',
+        labelTwoPos.plotX + chart.plotLeft,
+        labelTwoPos.plotY + chart.plotTop + plotBandLabelVertOffset
+        ).attr({
+            zIndex: 7,
+            align: 'center'
+        }).css({
+            fontSize: sectionLabelFontSize,
+            color: 'white'
+        }).add(),
+        box2 = text2.getBBox();
+
+    var labelThreePos = chart.series[2].data[2],
+    text3 = chart.renderer.text(
+        'Secretary of State<br>2009-2013',
+        labelThreePos.plotX + chart.plotLeft,
+        labelThreePos.plotY + chart.plotTop + plotBandLabelVertOffset
+        ).attr({
+            zIndex: 7,
+            align: 'center'
+        }).css({
+            fontSize: sectionLabelFontSize,
+            color: 'white'
+        }).add(),
+        box3 = text3.getBBox();
+    };
+
 $(document).ready(function(){
-    $(window).resize(function(){
-        build_graph();
+    $(window).smartresize(function(){
+        makeLabels();
     });
 });
 
-// $( window ).resize(function() {
-//     var graph = $('#container').highcharts();
+(function($,sr){
+  // debouncing function from John Hann
+  // http://unscriptable.com/index.php/2009/03/20/debouncing-javascript-methods/
+  var debounce = function (func, threshold, execAsap) {
+      var timeout;
 
-//     if ($(window).width() < 500) {
-//         console.log(graph);
-//         console.log('small window');
-//         // graph.options.plotOptions.scatter.marker.radius = 8;
-//         // graph.series[1].update();
-//     }
-//     else {
-//         console.log(graph);
-//         console.log('big window');
+      return function debounced () {
+          var obj = this, args = arguments;
+          function delayed () {
+              if (!execAsap)
+                  func.apply(obj, args);
+              timeout = null;
+          }
 
-//         // graph.options.plotOptions.scatter.marker.radius = 4;
-//         // graph.series[1].update();
-//     }
-// });
+          if (timeout)
+              clearTimeout(timeout);
+          else if (execAsap)
+              func.apply(obj, args);
+
+          timeout = setTimeout(delayed, threshold || 200);
+      };
+  };
+  // smartresize
+  jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
+
+})(jQuery,'smartresize');
