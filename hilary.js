@@ -60,20 +60,15 @@ function getYValue(dataset, date){
 
 function build_graph(){
     var dotRadius;
-    var mobile;
     if ($(window).width() < 500) {
-        mobile = true;
         dotRadius = 8;
     } else {
-        mobile = false;
         dotRadius = 4;
     }
 
     $('#container').highcharts({
         chart: {
             type: 'area',
-            panning: true,
-            panKey: 'shift',
             style: {
                 fontFamily: '"Lato", Helvetica, Arial, sans-serif'
             }
@@ -135,9 +130,6 @@ function build_graph(){
             enabled: true,
             useHTML: true,
             zIndex: 60,
-            style: {
-                fontFamily: "Lato"
-            },
             backgroundColor: '#FFFFFF',
             borderColor: '#CCCCCC',
             borderRadius: 10,
@@ -170,13 +162,11 @@ function build_graph(){
                     enabled: true,
                     symbol: "circle",
                     radius: dotRadius,
-                    // lineColor: 'blue',
                     states: {
                         hover: {
                             lineColor: '#FF9999',
                             fillColor: '#FF9999',
                             lineWidth: 8,
-                            // radiusPlus: 2,
                         }
                     }
                 },
@@ -206,8 +196,7 @@ function build_graph(){
         type: 'scatter',
         tooltip: false,
         enableMouseTracking: false
-
-    }
+        }
     ]
 });
 makeLabels();
@@ -296,7 +285,3 @@ $(document).ready(function(){
   jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
 
 })(jQuery,'smartresize');
-
-// $(document).on('pageinit', function(event){
-
-// });
