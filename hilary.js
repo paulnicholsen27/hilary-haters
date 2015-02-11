@@ -15,6 +15,7 @@ var fourthPlotLinePosition = new Date(2013, 0, 0).getTime();
 $.when(
     $.ajax({
         url: "data.json",
+        dataType: "json",        
         success: function(data) {
             for (i = 0; i < data.length; i++){
                 approval.push([new Date(data[i].poll_epoch*1000).getTime(), data[i].fav]);
@@ -25,6 +26,7 @@ $.when(
         $.when(
             $.ajax({
                 url: "events.json",
+                dataType: "json",
                 success: function(data) {
                     for (var i = 0; i < data.length; i++){
                         var date = new Date(data[i].date).getTime();
