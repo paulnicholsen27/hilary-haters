@@ -1,6 +1,11 @@
-#container{
-	min-width: 1000px !important;
+body {
+	font-family: "Lato", Helvetica, Arial, sans-serif;
 }
+
+#container {
+	width: 860px !important;
+}
+
 
 div.highcharts-tooltip>span{
 	font-size: 15px !important;
@@ -34,9 +39,26 @@ div.highcharts-tooltip>span{
 
 }
 
+#arrow{
+	display: none;
+}
+
 @media(max-width: 500px){
 
 	#container {
 		width: 2500px !important;
+	}
+	#arrow {
+	    position: fixed;
+	    top: 20px;
+	    right: 10px;
+		z-index: 10000;
+		display: inline;
+		opacity: .3;
+	}
+
+	#arrow img{
+		height: 40px;
+		width: 40px;
 	}
 }

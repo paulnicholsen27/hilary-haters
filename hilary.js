@@ -2,10 +2,11 @@ var tooltips = [];
 var approval = [];
 var event_series = [];
 
-var sectionLabelFontSize = '16px';
+var sectionLabelFontSize = '14px';
 
 var plotLinesColor = 'white';
-var plotBandLabelVertOffset = -330;
+var plotBandLabelVertOffset = -280;
+var plotBandLabelHorizOffset = 10;
 var firstPlotLinePosition = new Date(1993, 1, 20).getTime();
 var secondPlotLinePosition = new Date(2001, 1, 3).getTime();
 var thirdPlotLinePosition = new Date(2009, 1, 21).getTime();
@@ -59,9 +60,12 @@ function getYValue(dataset, date){
 
 function build_graph(){
     var dotRadius;
+    var mobile;
     if ($(window).width() < 500) {
+        mobile = true;
         dotRadius = 8;
     } else {
+        mobile = false;
         dotRadius = 4;
     }
 
@@ -69,6 +73,7 @@ function build_graph(){
         chart: {
             type: 'area',
             panning: true,
+            panKey: 'shift',
             style: {
                 fontFamily: '"Lato", Helvetica, Arial, sans-serif'
             }
@@ -88,25 +93,25 @@ function build_graph(){
                 color: plotLinesColor,
                 value: firstPlotLinePosition, //Bill sworn in
                 width: 2,
-                zIndex: 6,
+                zIndex: 4,
             },
             {
                 color: plotLinesColor,
                 value: secondPlotLinePosition, //Becomes U.S Senator
                 width: 2,
-                zIndex: 6,
+                zIndex: 4,
             },
             {
                 color: plotLinesColor,
                 value: thirdPlotLinePosition, //Secretary of State
                 width: 2,
-                zIndex: 6,
+                zIndex: 4,
             },
             {
                 color: plotLinesColor,
                 value: fourthPlotLinePosition, //Secretary of State
                 width: 2,
-                zIndex: 6,
+                zIndex: 4,
             }]
         },
         yAxis: {
@@ -161,13 +166,23 @@ function build_graph(){
                 color: "black",
                 cursor: "pointer",
                 marker: {
+                    zIndex: 10000,
                     enabled: true,
                     symbol: "circle",
                     radius: dotRadius,
+                    // lineColor: 'blue',
+                    states: {
+                        hover: {
+                            lineColor: '#FF9999',
+                            fillColor: '#FF9999',
+                            lineWidth: 8,
+                            // radiusPlus: 2,
+                        }
+                    }
                 },
                 states: {
                     hover: {
-                        enabled: false
+                        enabled: true
                     }
                 }
             }
@@ -187,7 +202,7 @@ function build_graph(){
             enableMouseTracking: true,
         },
         {   name: 'Labels',
-        data: [[(firstPlotLinePosition + secondPlotLinePosition) / 2, 0], [(secondPlotLinePosition + thirdPlotLinePosition) / 2, 0], [(thirdPlotLinePosition + fourthPlotLinePosition) / 2, 0]],
+        data: [[firstPlotLinePosition, 0], [secondPlotLinePosition, 0], [thirdPlotLinePosition, 0]],
         type: 'scatter',
         tooltip: false,
         enableMouseTracking: false
@@ -208,52 +223,51 @@ var makeLabels = function(){
     $("tspan:contains('Secretary')").remove();
     $("tspan:contains('2009')").remove();
 
-    var labelOnePos = chart.series[2].data[0],
+    var labelOnePos = chart.series[2].data[0];
     text1 = chart.renderer.text(
         'First Lady<br>1993-2001',
-        labelOnePos.plotX + chart.plotLeft,
+        labelOnePos.plotX + chart.plotLeft + plotBandLabelHorizOffset,
         labelOnePos.plotY + chart.plotTop + plotBandLabelVertOffset
         ).attr({
             zIndex: 7,
-            align: 'center'
+            align: 'left'
         }).css({
             fontSize: sectionLabelFontSize,
             color: 'white',
         }).add();
 
-    var labelTwoPos = chart.series[2].data[1],
+    var labelTwoPos = chart.series[2].data[1];
     text2 = chart.renderer.text(
         'U.S. Senator<br>2001-2009',
-        labelTwoPos.plotX + chart.plotLeft,
+        labelTwoPos.plotX + chart.plotLeft + plotBandLabelHorizOffset,
         labelTwoPos.plotY + chart.plotTop + plotBandLabelVertOffset
         ).attr({
             zIndex: 7,
-            align: 'center'
+            align: 'left'
         }).css({
             fontSize: sectionLabelFontSize,
             color: 'white'
-        }).add(),
-        box2 = text2.getBBox();
+        }).add();
 
-    var labelThreePos = chart.series[2].data[2],
+    var labelThreePos = chart.series[2].data[2];
     text3 = chart.renderer.text(
         'Secretary of State<br>2009-2013',
-        labelThreePos.plotX + chart.plotLeft,
+        labelThreePos.plotX + chart.plotLeft + plotBandLabelHorizOffset,
         labelThreePos.plotY + chart.plotTop + plotBandLabelVertOffset
         ).attr({
             zIndex: 7,
-            align: 'center'
+            align: 'left'
         }).css({
             fontSize: sectionLabelFontSize,
             color: 'white'
-        }).add(),
-        box3 = text3.getBBox();
+        }).add();
     };
 
 $(document).ready(function(){
     $(window).smartresize(function(){
         makeLabels();
     });
+
 });
 
 (function($,sr){
@@ -282,3 +296,7 @@ $(document).ready(function(){
   jQuery.fn[sr] = function(fn){  return fn ? this.bind('resize', debounce(fn)) : this.trigger(sr); };
 
 })(jQuery,'smartresize');
+
+// $(document).on('pageinit', function(event){
+
+// });
