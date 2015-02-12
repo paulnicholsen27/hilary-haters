@@ -1,11 +1,20 @@
 body {
 	font-family: "Lato", Helvetica, Arial, sans-serif;
+	overflow: hidden !important;
+	overflow-y: hidden !important;
+}
+
+body.ui-mobile-viewport, div.ui-mobile-viewport {
+	overflow-y: visible !important;
 }
 
 #container {
-	width: 860px !important;
+	width: 860px;
 }
 
+#main_page {
+	overflow: hidden !important;
+}
 
 div.highcharts-tooltip>span{
 	font-size: 15px !important;
@@ -36,7 +45,6 @@ div.highcharts-tooltip>span{
 
 .highcharts-tooltip .incident{
 	color: #999;
-
 }
 
 #arrow{
@@ -46,10 +54,15 @@ div.highcharts-tooltip>span{
 @media(max-width: 500px){
 
 	#container {
-		width: 2500px !important;
+		width: 2500px;
+		z-index: -1;
+		overflow-x: auto;
+		overflow-y: hidden;
+
 	}
+
 	#arrow {
-	    position: fixed;
+	    position: absolute;
 	    top: 15px;
 	    right: 40px;
 		z-index: 10000;

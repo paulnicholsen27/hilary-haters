@@ -45,6 +45,13 @@ $.when( //creates point-series for approval
         })
         ).then(function(){
             build_graph();
+            console.log('here');
+            // document.getElementById('container').style.width = '100%';
+            $('#container').css('width', '100%');
+            $('#container').on("scroll", function  hideArrow() {
+                $('#arrow').hide();
+                $('#container').off("scroll", hideArrow);
+            });
         });
     });
 
