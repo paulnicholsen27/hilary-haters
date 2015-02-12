@@ -53,7 +53,7 @@ div.highcharts-tooltip>span{
 	    top: 15px;
 	    right: 40px;
 		z-index: 10000;
-		display: inline;
+		display: inline-block;
 		opacity: .3;
 	}
 
