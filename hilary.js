@@ -18,35 +18,35 @@ var fourthPlotLinePosition = new Date(2013, 0, 0).getTime();
 $.when( //creates point-series for approval
     $.ajax({
         url: "data.json",
-        dataType: "json",        
+        dataType: "json",
         success: function(data) {
-            for (i = 0; i < data.length; i++){
-                approval.push([new Date(data[i].poll_epoch*1000).getTime(), data[i].fav]);
+            for (var i = 0; i < data.length; i++) {
+                approval.push([new Date(data[i].poll_epoch * 1000).getTime(), data[i].fav]);
             }
-        },
+        }
     })
-    ).then(function(){
-        $.when( //creates point series for events
-            $.ajax({
-                url: "events.json",
-                dataType: "json",
-                success: function(data) {
-                    for (var i = 0; i < data.length; i++){
-                        var date = new Date(data[i].date).getTime();
-                        var y_value = Math.round(getYValue(approval, date)); //gets approval rating based on closest two points from approval series
-                        var new_event = {};
-                        new_event['date'] = data[i].date;
-                        new_event['y_value'] = y_value;
-                        new_event['incident'] = data[i].incident;
-                        tooltips.push(new_event);
-                        event_series.push([date, y_value, data[i].incident]);
-                    }
+).then(function() {
+    $.when( //creates point series for events
+        $.ajax({
+            url: "events.json",
+            dataType: "json",
+            success: function(data) {
+                for (var i = 0; i < data.length; i++){
+                    var date = new Date(data[i].date).getTime();
+                    var y_value = Math.round(getYValue(approval, date)); //gets approval rating based on closest two points from approval series
+                    var new_event = {};
+                    new_event['date'] = data[i].date;
+                    new_event['y_value'] = y_value;
+                    new_event['incident'] = data[i].incident;
+                    tooltips.push(new_event);
+                    event_series.push([date, y_value, data[i].incident]);
                 }
-            })
-            ).then(function(){
-                build_graph();
-            });
+            }
+        })
+        ).then(function(){
+            build_graph();
         });
+    });
 
 function getYValue(dataset, date){
     //gets rating estimate for closest surrounding dates using algebraic fun-times
