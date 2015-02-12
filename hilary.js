@@ -4,15 +4,18 @@ var event_series = [];
 
 var sectionLabelFontSize = '14px';
 
-var plotLinesColor = 'white';
 var plotBandLabelVertOffset = -280;
 var plotBandLabelHorizOffset = 10;
+
+var plotLinesColor = 'white';
+
+//plot line positions based on when Clintons took various positions
 var firstPlotLinePosition = new Date(1993, 1, 20).getTime();
 var secondPlotLinePosition = new Date(2001, 1, 3).getTime();
 var thirdPlotLinePosition = new Date(2009, 1, 21).getTime();
 var fourthPlotLinePosition = new Date(2013, 0, 0).getTime();
 
-$.when(
+$.when( //creates point-series for approval
     $.ajax({
         url: "data.json",
         dataType: "json",        
@@ -23,14 +26,14 @@ $.when(
         },
     })
     ).then(function(){
-        $.when(
+        $.when( //creates point series for events
             $.ajax({
                 url: "events.json",
                 dataType: "json",
                 success: function(data) {
                     for (var i = 0; i < data.length; i++){
                         var date = new Date(data[i].date).getTime();
-                        var y_value = Math.round(getYValue(approval, date));
+                        var y_value = Math.round(getYValue(approval, date)); //gets approval rating based on closest two points from approval series
                         var new_event = {};
                         new_event['date'] = data[i].date;
                         new_event['y_value'] = y_value;
@@ -85,7 +88,7 @@ function build_graph(){
 
         xAxis: {
             type: 'datetime',
-            tickInterval: 365 * 24 * 60 * 60 * 1000,
+            tickInterval: 365 * 24 * 60 * 60 * 1000, //1 year
             plotLines: [{
                 color: plotLinesColor,
                 value: firstPlotLinePosition, //Bill sworn in
@@ -144,7 +147,7 @@ function build_graph(){
             enabled: false
         },
         plotOptions: {
-            area: {
+            area: { //options for approval
                 fillOpacity: 1,
                 marker: {
                     enabled: false,
@@ -155,12 +158,11 @@ function build_graph(){
                     }
                 }
             },
-            scatter: {
+            scatter: { //options for events
                 useHTML: true,
                 color: "black",
                 cursor: "pointer",
                 marker: {
-                    zIndex: 10000,
                     enabled: true,
                     symbol: "circle",
                     radius: dotRadius,
@@ -193,7 +195,7 @@ function build_graph(){
             tooltip: true,
             enableMouseTracking: true,
         },
-        {   name: 'Labels',
+        {   name: 'Labels', //fake data set to put in labels
         data: [[firstPlotLinePosition, 0], [secondPlotLinePosition, 0], [thirdPlotLinePosition, 0]],
         type: 'scatter',
         tooltip: false,
@@ -205,6 +207,7 @@ makeLabels();
 }
 
 var makeLabels = function(){
+    //creates labels on window load/resize
     var chart = $('#container').highcharts();
     //I know this is hacky but was the only way I could find to target the elements
     $("tspan:contains('First')").remove();
