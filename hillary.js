@@ -15,6 +15,8 @@ var secondPlotLinePosition = new Date(2001, 1, 3).getTime();
 var thirdPlotLinePosition = new Date(2009, 1, 21).getTime();
 var fourthPlotLinePosition = new Date(2013, 0, 0).getTime();
 
+var isTouch = ('ontouchstart' in window);
+
 $.when( //creates point-series for approval
     $.ajax({
         url: "data.json",
@@ -45,7 +47,11 @@ $.when( //creates point-series for approval
         })
         ).then(function(){
             build_graph();
-            console.log('here');
+            if (isTouch) {
+                $('#arrow_text').html('Swipe');
+            } else {
+                $('#arrow_text').html('Scroll');
+            }
             // document.getElementById('container').style.width = '100%';
             $('#container').css('width', '100%');
             $('#container').on("scroll", function  hideArrow() {
@@ -266,9 +272,9 @@ var makeLabels = function(){
 
 $(document).ready(function(){
     $(window).smartresize(function(){
-        makeLabels();
+        $('#container').css("width", "");
+        build_graph();
     });
-
 });
 
 (function($,sr){
